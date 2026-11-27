@@ -16,6 +16,18 @@ TARGETS=(
   "$HOME/.gemini/config/AGENTS.md"
 )
 
+# Apps that run Claude Code with their own config folder (CLAUDE_CONFIG_DIR, e.g. ~/.claude_personal)
+# never read ~/.claude/CLAUDE.md, so write the rules there too.
+CLAUDE_DIRS=()
+if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then CLAUDE_DIRS+=("$CLAUDE_CONFIG_DIR"); fi
+for DIR in "$HOME"/.claude_*/; do
+  if [ -d "${DIR}projects" ]; then CLAUDE_DIRS+=("${DIR%/}"); fi
+done
+for DIR in ${CLAUDE_DIRS[@]+"${CLAUDE_DIRS[@]}"}; do
+  T="$DIR/CLAUDE.md"
+  case " ${TARGETS[*]} " in *" $T "*) ;; *) TARGETS+=("$T") ;; esac
+done
+
 for TARGET in "${TARGETS[@]}"; do
   mkdir -p "$(dirname "$TARGET")"
   node -e '
