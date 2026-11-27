@@ -14,6 +14,18 @@ $Targets = @(
   (Join-Path $env:USERPROFILE ".gemini\config\AGENTS.md")
 )
 
+# Apps that run Claude Code with their own config folder (CLAUDE_CONFIG_DIR, e.g. ~/.claude_personal)
+# never read ~/.claude/CLAUDE.md, so write the rules there too.
+$ClaudeDirs = @()
+if ($env:CLAUDE_CONFIG_DIR) { $ClaudeDirs += $env:CLAUDE_CONFIG_DIR }
+$ClaudeDirs += Get-ChildItem -Path $env:USERPROFILE -Directory -Force -Filter ".claude_*" -ErrorAction SilentlyContinue |
+  Where-Object { Test-Path (Join-Path $_.FullName "projects") } |
+  ForEach-Object { $_.FullName }
+foreach ($Dir in $ClaudeDirs) {
+  $Target = Join-Path $Dir "CLAUDE.md"
+  if ($Targets -notcontains $Target) { $Targets += $Target }
+}
+
 foreach ($Target in $Targets) {
   $Dir = Split-Path -Parent $Target
   if (-not (Test-Path $Dir)) {

@@ -6,7 +6,7 @@ This repository supplies organization-wide GitHub defaults and shared AI coding 
 
 - `.github/pull_request_template.md` — Automatically applied by GitHub to every repository in `MoBlockz` (`Observed / Not Run` and `Performance` disclosure).
 - `GLOBAL_AGENTS.md` — Shared Week 1 engineering guardrails and kid-safe `MoBlockz` rules (including auto-bootstrapping `AGENTS.md` + `CLAUDE.md` on every new repo).
-- `install-windows.ps1` / `install-mac.sh` — Idempotent one-line installers that sync `GLOBAL_AGENTS.md` into Claude Code, Codex, and Antigravity using safe `<!-- moblockz-rules:start/end -->` markers without touching existing personal rules.
+- `install-windows.ps1` / `install-mac.sh` — Idempotent one-line installers that sync `GLOBAL_AGENTS.md` into Claude Code, Codex, and Antigravity using safe `<!-- moblockz-rules:start/end -->` markers without touching existing personal rules. They also cover extra Claude Code config folders (`CLAUDE_CONFIG_DIR`, or any `~/.claude_*` folder with a `projects/` subfolder), which apps like T3 Code use instead of `~/.claude`.
 
 ## One-Time Setup on the Robbs PC (Windows PowerShell)
 
